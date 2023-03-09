@@ -11,6 +11,7 @@ const showModalAdd = ref(false);
 const showModalUpdate = ref(false);
 const currentBreed = ref('')
 let breeds = reactive([]);
+const show=ref(true)
 
 onBeforeMount(() => {
     console.log("Mounted")
@@ -25,6 +26,7 @@ const fetchBreeds = async () => {
         response.data.map(breed => breeds.push(breed))
         console.log("Array", breeds)
         //breeds=response.data
+        show.value=false
     } catch (error) {
         console.error(error);
     }
@@ -125,28 +127,44 @@ const deleteBreed = async (breed) => {
 
     </div>
     <div class="main-table-cont">
-        <table class="table-cont">
-            <tr>
-                <th>Raza</th>
-                <th>Opciones</th>
 
-            </tr>
-            <tr class="breed-info" v-for="breed in breeds">
+        <n-space class="spinner-cont">
+            <n-spin :show="show">
+                <table class="table-cont">
+                    <tr>
+                        <th>Raza</th>
+                        <th>Opciones</th>
 
-                <td class="breed-text">{{ breed.name }}</td>
-                <td class="breed-option">
-                    <n-button @click="updateBreed(breed)" type="warning">
-                        Editar
-                    </n-button>
-                </td>
-                <td class="breed-option">
-                    <n-button @click="deleteBreed(breed)" type="error">
-                        Eliminar
-                    </n-button>
-                </td>
-            </tr>
+                    </tr>
+                    <tr class="breed-info" v-for="breed in breeds">
 
-        </table>
+                        <td class="breed-text">{{ breed.name }}</td>
+                        <td class="breed-option">
+                            <n-button @click="updateBreed(breed)" type="warning">
+                                Editar
+                            </n-button>
+                        </td>
+                        <td class="breed-option">
+                            <n-button @click="deleteBreed(breed)" type="error">
+                                Eliminar
+                            </n-button>
+                        </td>
+                    </tr>
+
+                </table>
+
+
+                <template #description>
+                    Cargando la raza de tu próximo mejor amigo...
+                </template>
+            </n-spin>
+
+        </n-space>
+
+
+
+
+
         <Button @click="showModalAdd = true" text="Añadir" />
 
     </div>
@@ -267,8 +285,12 @@ const deleteBreed = async (breed) => {
 .main-table-cont {
     display: flex;
     flex-direction: column;
-
     justify-content: center;
     align-items: center;
+    margin-bottom: 30px;
+}
+
+.spinner-cont{
+   
 }
 </style>
