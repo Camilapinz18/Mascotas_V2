@@ -1,0 +1,210 @@
+<script setup>
+import Button from '../components/Auxiliar/Button.vue';
+import Navbar from '../components/Auxiliar/Navbar.vue';
+import { ref } from "vue";
+
+/***************************** */
+const breed = ref('');
+const showModalAdd = ref(false);
+const showModalUpdate = ref(false);
+const currentBreed=ref('')
+const breeds = ['raza1', 'raza2', 'raza3', 'raza4', 'raza5', 'raza6']
+
+function onPositiveClick() {
+    alert('submit')
+    showModalAdd.value = false;
+}
+
+function onNegativeClick() {
+    alert('cancel')
+    showModalAdd.value = false;
+}
+
+const addNewBreed = () => {
+    if (breed.value === '' || breed.value === null || breed.value === undefined) {
+        alert('Ingresa la raza para continuar')
+    } else {
+        alert("Raza " + breed.value + " añadida")
+        breed.value = ''
+        showModalAdd.value = false;
+    }
+}
+
+const updateBreed = (breed) => {
+    console.log("breed",breed)
+    showModalUpdate.value=true
+    currentBreed.value=breed
+}
+
+const saveUpdatedBreed=()=>{
+    console.log("save")
+    const saveChanges=confirm('Esta seguro de guardar los cambios?')
+    if(saveChanges){
+        showModalUpdate.value=false
+        alert('Camvbios guardados')
+    } else{
+
+    }
+}
+
+const deleteBreed = (breed) => {
+    console.log("delete",breed)
+    const deleteBreed=confirm('Esta seguro de eliminar la raza ' +breed+'?')
+    if(deleteBreed){
+       
+        alert('Raza '+breed+' eliminada')
+    } else{
+
+    }
+}
+
+
+</script>
+
+<template>
+    <Navbar />
+    <h1>Razas</h1>
+    <div class="pets-welcome-cont">
+        
+        <div class="pets-text">
+            <h1>Encuentra a tu amigo</h1>
+            <p>En PetMatch, estamos orgullosos de contar con una amplia variedad de razas de mascotas, cada una de ellas con
+                una
+                personalidad y encanto únicos, y todas con un gran deseo de ser amadas y cuidadas por una familia amorosa.
+            </p>
+        </div>
+        <img src="../assets/images/breeds-welcome.jpg" />
+
+    </div>
+    <div>
+        <table class="table-cont">
+            <tr>
+                <th>Raza</th>
+                <th>Opciones</th>
+
+            </tr>
+            <tr class="breed-info" v-for="breed in breeds">
+                <td class="breed-text">{{ breed }}</td>
+                <td class="breed-option">
+                    <n-button @click="updateBreed(breed)" type="warning">
+                        Editar
+                    </n-button>
+                </td>
+                <td class="breed-option">
+                    <n-button @click="deleteBreed(breed)" type="error">
+                        Eliminar
+                    </n-button>
+                </td>
+            </tr>
+
+        </table>
+    </div>
+
+    <Button @click="showModalAdd = true" text="Añadir" />
+
+
+
+    <n-modal v-model:show="showModalAdd" :mask-closable="false" preset="dialog" title="Dialog" positive-text="Confirm"
+        negative-text="Cancel" @positive-click="onPositiveClick" @negative-click="onNegativeClick">
+        <template #header>
+            <div>Añadir nueva raza</div>
+        </template>
+        <div class="modal-cont">
+            <span>Raza:</span>
+            <n-input v-model:value="breed" round placeholder="Nombre de raza" />
+        </div>
+        <template #action>
+            <Button @click="addNewBreed" text="Añadir" />
+        </template>
+
+    </n-modal>
+
+    <n-modal v-model:show="showModalUpdate" :mask-closable="false" preset="dialog" title="Dialog" positive-text="Confirm"
+        negative-text="Cancel" @positive-click="onPositiveClick" @negative-click="onNegativeClick">
+        <template #header>
+            <div>Editar raza</div>
+        </template>
+        <div class="modal-cont">
+            <span>Raza:</span>
+            <n-input v-model:value="currentBreed" round placeholder="Nombre de raza" />
+        </div>
+        <template #action>
+            <Button @click="saveUpdatedBreed" text="Guardar" />
+        </template>
+
+    </n-modal>
+</template>
+
+<style scoped>
+
+.pets-welcome-cont {
+    display: flex;
+    flex-direction: row;
+    height: 80vh;
+
+    justify-content: space-evenly;
+    align-items: center;
+    padding-top: 30px;
+    background-image: url('../assets/images/bg-breeds.svg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.pets-welcome-cont img {
+    width: 40%;
+    border-radius: 50%;
+}
+
+.pets-text {
+
+    width: 40%;
+}
+
+.pets-text p {
+    font-size: 17px;
+}
+
+.pets-text h1 {
+    font-size: 40px;
+    margin-bottom: 20px;
+}
+.modal-cont {
+    margin-top: 20px;
+}
+
+.modal-cont span {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.breeds-table {
+
+    width: 100%;
+    align-self: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.breed-info {}
+
+.breed-text {
+
+    width: 60%;
+}
+
+.breed-btns {
+    background-color: green;
+    width: 50pz;
+}
+
+.breed-option {
+    width: 10%
+}
+
+.table-cont {
+
+    width: 90%;
+    margin: 0 auto;
+
+}
+</style>
