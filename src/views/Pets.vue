@@ -173,8 +173,7 @@ const updateUser = async () => {
                         <h3>Info:</h3>
                         <span>Dato</span>
                     </div>
-                    <Button @click="searchUser" text="Adoptar!" />
-                </div>
+                    <Button @click="showModalSearch = true" text="Adoptar!" />                </div>
             </n-card>
             <n-card title="Nombre">
                 <template #cover>
@@ -193,8 +192,7 @@ const updateUser = async () => {
                         <h3>Info:</h3>
                         <span>Dato</span>
                     </div>
-                    <Button @click="searchUser" text="Adoptar!" />
-                </div>
+                    <Button @click="showModalSearch = true" text="Adoptar!" />                </div>
             </n-card>
 
             <n-card title="Nombre">
@@ -214,8 +212,7 @@ const updateUser = async () => {
                         <h3>Info:</h3>
                         <span>Dato</span>
                     </div>
-                    <Button @click="searchUser" text="Adoptar!" />
-                </div>
+                    <Button @click="showModalSearch = true" text="Adoptar!" />                </div>
             </n-card>
 
             <n-card title="Nombre">
@@ -235,8 +232,7 @@ const updateUser = async () => {
                         <h3>Info:</h3>
                         <span>Dato</span>
                     </div>
-                    <Button @click="searchUser" text="Adoptar!" />
-                </div>
+                    <Button @click="showModalSearch = true" text="Adoptar!" />                </div>
             </n-card>
         </div>
     </div>
