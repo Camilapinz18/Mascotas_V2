@@ -1,6 +1,7 @@
 <script setup>
 import Button from '../components/Auxiliar/Button.vue';
 import Navbar from '../components/Auxiliar/Navbar.vue';
+import Footer from '../components/Footer.vue';
 import { ref, reactive, onMounted, onBeforeMount } from "vue";
 import axios from 'axios'
 
@@ -9,7 +10,7 @@ const breed = ref('');
 const showModalAdd = ref(false);
 const showModalUpdate = ref(false);
 const currentBreed = ref('')
-const breeds = reactive([]);
+let breeds = reactive([]);
 
 onBeforeMount(() => {
     console.log("Mounted")
@@ -17,10 +18,10 @@ onBeforeMount(() => {
 })
 
 const fetchBreeds = async () => {
+    breeds.splice(0, breeds.length);
     try {
         const response = await axios.get('https://drab-lime-hen-suit.cyclic.app/api/v1/breed/all');
         console.log(response.data);
-
         response.data.map(breed => breeds.push(breed))
         console.log("Array", breeds)
         //breeds=response.data
@@ -28,8 +29,6 @@ const fetchBreeds = async () => {
         console.error(error);
     }
 }
-
-
 
 function onPositiveClick() {
     alert('submit')
@@ -49,11 +48,12 @@ const addNewBreed = async () => {
         const newBreed = breed.value
         try {
             console.log(breed.value, "valorrrr")
-            const response = await axios.post('https://drab-lime-hen-suit.cyclic.app/api/v1/breed/create', newBreed);
+            const response = await axios.post('https://drab-lime-hen-suit.cyclic.app/api/v1/breed/create', { name: newBreed });
             console.log(response.data);
             alert("Raza " + breed.value + " añadida")
             breed.value = ''
             showModalAdd.value = false;
+            fetchBreeds()
 
         } catch (error) {
             console.error(error);
@@ -70,11 +70,11 @@ const updateBreed = (breed) => {
 
 const saveUpdatedBreed = async () => {
     console.log("save", currentBreed.value)
-    const saveChanges = confirm('Esta seguro de guardar los cambios?' + currentBreed.value.name)
+    const saveChanges = confirm('Esta seguro de guardar los cambios?')
     if (saveChanges) {
         showModalUpdate.value = false
         try {
-            const response = await axios.put(`https://drab-lime-hen-suit.cyclic.app/api/v1/breed/update/${currentBreed.value._id}`, currentBreed.value.name)
+            const response = await axios.put(`https://drab-lime-hen-suit.cyclic.app/api/v1/breed/update/${currentBreed.value._id}`, { name: currentBreed.value.name })
             console.log(response);
             alert('Cambios guardados')
         } catch (error) {
@@ -94,7 +94,8 @@ const deleteBreed = async (breed) => {
         try {
             const response = await axios.delete(`https://drab-lime-hen-suit.cyclic.app/api/v1/breed/delete/${breed._id}`)
             console.log(response);
-            alert('Raza ' + breed + ' eliminada')
+            fetchBreeds()
+            alert('Raza ' + breed.name + ' eliminada')
         } catch (error) {
             console.error(error);
         }
@@ -123,7 +124,7 @@ const deleteBreed = async (breed) => {
         <img src="../assets/images/breeds-welcome.jpg" />
 
     </div>
-    <div>
+    <div class="main-table-cont">
         <table class="table-cont">
             <tr>
                 <th>Raza</th>
@@ -146,9 +147,11 @@ const deleteBreed = async (breed) => {
             </tr>
 
         </table>
+        <Button @click="showModalAdd = true" text="Añadir" />
+
     </div>
 
-    <Button @click="showModalAdd = true" text="Añadir" />
+
 
 
 
@@ -181,6 +184,7 @@ const deleteBreed = async (breed) => {
         </template>
 
     </n-modal>
+    <Footer />
 </template>
 
 <style scoped>
@@ -238,6 +242,8 @@ const deleteBreed = async (breed) => {
 .breed-text {
 
     width: 60%;
+    align-self: center;
+    text-align: center;
 }
 
 .breed-btns {
@@ -251,8 +257,18 @@ const deleteBreed = async (breed) => {
 
 .table-cont {
 
-    width: 90%;
+    width: 50%;
     margin: 0 auto;
+    font-size: 20px;
+    padding-bottom: 30px;
 
+}
+
+.main-table-cont {
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+    align-items: center;
 }
 </style>

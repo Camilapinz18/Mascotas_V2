@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import LandingPage from '../views/LandingPage.vue'
 import Breeds from '../views/Breeds.vue'
 import Pets from '../views/Pets.vue'
+import History from '../views/History.vue'
 
 
 const router = createRouter({
@@ -21,6 +22,11 @@ const router = createRouter({
       path: '/pets',
       name: 'pets',
       component: Pets
+    },
+    {
+      path: '/history',
+      name: 'history',
+      component: History
     }
   ]
 })

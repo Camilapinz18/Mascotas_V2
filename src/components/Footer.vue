@@ -7,9 +7,9 @@
       <div class="info-cont">
          <img src="../assets/images/logo.png" />
          <h2>PetMatch</h2>
-         <span>1234 Maple Street</span>
-         <span>+1 (555) 555-1234</span>
-         <span>info@petmatch.com</span>
+         <span>Calle 16 #22-55, Bogotá</span>
+         <span>+57 320 123 4567</span>
+         <span>info@adoptamas.com</span>
 
       </div>
       <n-back-top :right="100" />

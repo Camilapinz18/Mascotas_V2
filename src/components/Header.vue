@@ -1,6 +1,7 @@
 <script setup>
 import Navbar from './Auxiliar/Navbar.vue';
 import Button from './Auxiliar/Button.vue';
+
 </script>
 
 <template>
@@ -8,13 +9,13 @@ import Button from './Auxiliar/Button.vue';
         <Navbar />
         <div class="welcome-cont">
             <div class="text-cont">
-                <h1>¡Bienvenido a PetMatch, donde tu futuro amigo peludo te espera!</h1>
+                <h1>¡Bienvenido a ADOPTA+, donde tu futuro amigo peludo te espera!</h1>
                 <p>Adoptar una mascota no solo cambia su vida, sino también la tuya...!</p>
                 <div class="buttons-cont">
-                    <Button text="Iniciar adopción"/>
-                    <Button text="Conoce más"/>
+                    <img src="../assets/images/huellas.png" />
+
                 </div>
-               
+
             </div>
 
             <img src="../assets/images/welcome.png" />
@@ -56,17 +57,30 @@ import Button from './Auxiliar/Button.vue';
 
 }
 
-.text-cont h1, .text-cont p {
+.text-cont h1,
+.text-cont p {
     width: 80%;
     margin: 20px;
 }
 
-.buttons-cont{
+.text-cont p {
+    font-size: 20px;
+}
+
+.buttons-cont {
     display: flex;
     flex-direction: row;
     width: 80%;
+    align-items: center;
+}
 
-    align-items: flex-start;
+.buttons-cont img {
+    width: 80%;
+}
 
+/********* */
+
+@media screen and (min-width: 768px) {
+    /* Styles for screens with a width of 768px or greater */
 }
 </style>
