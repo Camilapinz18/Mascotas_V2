@@ -1,14 +1,35 @@
 <script setup>
 import Button from '../components/Auxiliar/Button.vue';
 import Navbar from '../components/Auxiliar/Navbar.vue';
-import { ref } from "vue";
+import { ref, reactive, onMounted, onBeforeMount } from "vue";
+import axios from 'axios'
 
 /***************************** */
 const breed = ref('');
 const showModalAdd = ref(false);
 const showModalUpdate = ref(false);
-const currentBreed=ref('')
-const breeds = ['raza1', 'raza2', 'raza3', 'raza4', 'raza5', 'raza6']
+const currentBreed = ref('')
+const breeds = reactive([]);
+
+onBeforeMount(() => {
+    console.log("Mounted")
+    fetchBreeds()
+})
+
+const fetchBreeds = async () => {
+    try {
+        const response = await axios.get('https://drab-lime-hen-suit.cyclic.app/api/v1/breed/all');
+        console.log(response.data);
+
+        response.data.map(breed => breeds.push(breed))
+        console.log("Array", breeds)
+        //breeds=response.data
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+
 
 function onPositiveClick() {
     alert('submit')
@@ -20,40 +41,66 @@ function onNegativeClick() {
     showModalAdd.value = false;
 }
 
-const addNewBreed = () => {
+const addNewBreed = async () => {
     if (breed.value === '' || breed.value === null || breed.value === undefined) {
         alert('Ingresa la raza para continuar')
     } else {
-        alert("Raza " + breed.value + " añadida")
-        breed.value = ''
-        showModalAdd.value = false;
+
+        const newBreed = breed.value
+        try {
+            console.log(breed.value, "valorrrr")
+            const response = await axios.post('https://drab-lime-hen-suit.cyclic.app/api/v1/breed/create', newBreed);
+            console.log(response.data);
+            alert("Raza " + breed.value + " añadida")
+            breed.value = ''
+            showModalAdd.value = false;
+
+        } catch (error) {
+            console.error(error);
+        }
+
     }
 }
 
 const updateBreed = (breed) => {
-    console.log("breed",breed)
-    showModalUpdate.value=true
-    currentBreed.value=breed
+    console.log("breed", breed._id)
+    showModalUpdate.value = true
+    currentBreed.value = breed
 }
 
-const saveUpdatedBreed=()=>{
-    console.log("save")
-    const saveChanges=confirm('Esta seguro de guardar los cambios?')
-    if(saveChanges){
-        showModalUpdate.value=false
-        alert('Camvbios guardados')
-    } else{
+const saveUpdatedBreed = async () => {
+    console.log("save", currentBreed.value)
+    const saveChanges = confirm('Esta seguro de guardar los cambios?' + currentBreed.value.name)
+    if (saveChanges) {
+        showModalUpdate.value = false
+        try {
+            const response = await axios.put(`https://drab-lime-hen-suit.cyclic.app/api/v1/breed/update/${currentBreed.value._id}`, currentBreed.value.name)
+            console.log(response);
+            alert('Cambios guardados')
+        } catch (error) {
+            console.error(error);
+        }
+
+    } else {
 
     }
 }
 
-const deleteBreed = (breed) => {
-    console.log("delete",breed)
-    const deleteBreed=confirm('Esta seguro de eliminar la raza ' +breed+'?')
-    if(deleteBreed){
-       
-        alert('Raza '+breed+' eliminada')
-    } else{
+const deleteBreed = async (breed) => {
+    console.log("delete", breed._id)
+    const deleteBreed = confirm('Esta seguro de eliminar la raza ' + breed.name + '?')
+    if (deleteBreed) {
+
+        try {
+            const response = await axios.delete(`https://drab-lime-hen-suit.cyclic.app/api/v1/breed/delete/${breed._id}`)
+            console.log(response);
+            alert('Raza ' + breed + ' eliminada')
+        } catch (error) {
+            console.error(error);
+        }
+
+
+    } else {
 
     }
 }
@@ -63,9 +110,9 @@ const deleteBreed = (breed) => {
 
 <template>
     <Navbar />
-    <h1>Razas</h1>
+
     <div class="pets-welcome-cont">
-        
+
         <div class="pets-text">
             <h1>Encuentra a tu amigo</h1>
             <p>En PetMatch, estamos orgullosos de contar con una amplia variedad de razas de mascotas, cada una de ellas con
@@ -84,7 +131,8 @@ const deleteBreed = (breed) => {
 
             </tr>
             <tr class="breed-info" v-for="breed in breeds">
-                <td class="breed-text">{{ breed }}</td>
+
+                <td class="breed-text">{{ breed.name }}</td>
                 <td class="breed-option">
                     <n-button @click="updateBreed(breed)" type="warning">
                         Editar
@@ -126,7 +174,7 @@ const deleteBreed = (breed) => {
         </template>
         <div class="modal-cont">
             <span>Raza:</span>
-            <n-input v-model:value="currentBreed" round placeholder="Nombre de raza" />
+            <n-input v-model:value="currentBreed.name" round placeholder="Nombre de raza" />
         </div>
         <template #action>
             <Button @click="saveUpdatedBreed" text="Guardar" />
@@ -136,7 +184,6 @@ const deleteBreed = (breed) => {
 </template>
 
 <style scoped>
-
 .pets-welcome-cont {
     display: flex;
     flex-direction: row;
@@ -168,6 +215,7 @@ const deleteBreed = (breed) => {
     font-size: 40px;
     margin-bottom: 20px;
 }
+
 .modal-cont {
     margin-top: 20px;
 }

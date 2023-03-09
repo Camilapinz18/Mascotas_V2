@@ -9,7 +9,6 @@ import { RouterLink } from 'vue-router'
             <RouterLink to="/">Home</RouterLink>
             <RouterLink to="/pets">Adoptar</RouterLink>
             <RouterLink to="/breeds">Razas</RouterLink>
-            <a>Usuarios</a>
         </div>
 
     </div>

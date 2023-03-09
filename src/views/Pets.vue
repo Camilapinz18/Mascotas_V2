@@ -2,6 +2,7 @@
 import Button from '../components/Auxiliar/Button.vue';
 import Navbar from '../components/Auxiliar/Navbar.vue';
 import { ref } from "vue";
+import axios from 'axios';
 /************ */
 const showModalSearch = ref(false);
 const showModalRegister = ref(false);
@@ -38,7 +39,7 @@ const searchUser = () => {
 }
 
 
-const registerUser = () => {
+const registerUser = async () => {
 
     showModalRegister.value = true;
 
@@ -50,15 +51,36 @@ const registerUser = () => {
     ) {
         alert('Completa todos los datos para continuar')
     } else {
-        alert('Usuario registrado xitosamente')
-        showModalSearch.value = false;
-        showModalRegister.value = false;
 
+        const newUser = {
+            name: name.value,
+            idCard: idCard.value,
+            address: address.value,
+            phone: phone.value,
+            email: email.value
+        }
+        try {
+            const response =await axios.post('https://drab-lime-hen-suit.cyclic.app/api/v1/user/register', {
+            name: name.value,
+            idCard: idCard.value,
+            address: address.value,
+            phone: phone.value,
+            email: email.value
+        })
+
+            console.log(response);
+
+            alert('Usuario registrado xitosamente')
+            showModalSearch.value = false;
+            showModalRegister.value = false;
+
+
+
+        } catch (error) {
+            console.error(error);
+        }
 
     }
-
-
-
 }
 
 </script>
@@ -195,7 +217,7 @@ const registerUser = () => {
             <n-input v-model:value="idCard" round placeholder="Número de documento" />
         </div>
         <template #action>
-            <Button @click="showModalRegister=true" text="Continuar" />
+            <Button @click="showModalRegister = true" text="Continuar" />
         </template>
     </n-modal>
 
