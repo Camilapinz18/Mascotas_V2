@@ -2,12 +2,14 @@ const express = require('express');
 const app = express();
 const PORT = process.env.PORT || 4000;
 const DB = require('./src/config/db');
+const cors = require('cors');
 
 //conexion a la DB
 DB();
 //middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 
 //routes
 app.use('/api/v1/user', require('./src/routes/user'));
