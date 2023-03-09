@@ -4,12 +4,17 @@
 
 <template>
    <div class="footer-cont">
-      <h1>Footer</h1>
-      <img src="../assets/images/logo.png" />
-      <span>PetMatch</span>
-      <span>Direccion</span>
-      <span>Teelfono</span>
-      <span>@2023 CP</span>
+      <div class="info-cont">
+         <img src="../assets/images/logo.png" />
+         <h2>PetMatch</h2>
+         <span>1234 Maple Street</span>
+         <span>+1 (555) 555-1234</span>
+         <span>info@petmatch.com</span>
+
+      </div>
+      <n-back-top :right="100" />
+  
+
    </div>
 </template>
 
@@ -23,7 +28,22 @@
 }
 
 .footer-cont img {
-   width: 10%;
+   width: 100%;
 
+
+}
+
+.info-cont {
+   display: flex;
+   flex-direction: column;
+
+   width: min-content;
+   padding: 30px;
+   margin-left: 40px;
+   color: white;
+}
+
+.info-cont h2{
+   margin-top: 20px;
 }
 </style>

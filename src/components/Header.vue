@@ -8,11 +8,11 @@ import Button from './Auxiliar/Button.vue';
         <Navbar />
         <div class="welcome-cont">
             <div class="text-cont">
-                <h1>Welcome to PetMatch, where your future furry friend awaits!</h1>
-                <p>Adopting a pet not only changes their life, but yours too...!</p>
+                <h1>¡Bienvenido a PetMatch, donde tu futuro amigo peludo te espera!</h1>
+                <p>Adoptar una mascota no solo cambia su vida, sino también la tuya...!</p>
                 <div class="buttons-cont">
-                    <Button text="Get started"/>
-                    <Button text="Learn more"/>
+                    <Button text="Iniciar adopción"/>
+                    <Button text="Conoce más"/>
                 </div>
                
             </div>
