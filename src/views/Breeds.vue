@@ -126,50 +126,37 @@ const deleteBreed = async (breed) => {
         <img src="../assets/images/breeds-welcome.jpg" />
 
     </div>
-    <div class="main-table-cont">
+   
+   <div class="cards-main-cont">
+   <h1>Razas disponibles</h1>
 
-        <n-space class="spinner-cont">
-            <n-spin :show="show">
-                <table class="table-cont">
-                    <tr>
-                        <th>Raza</th>
-                        <th>Opciones</th>
+   <n-space class="spinner-cont">
+        <n-spin :show="show">
+            <div class="cards-cont">
+                <n-card :title="breed.name" v-for="breed in breeds">
+                    <template #cover>
+                        <img src="../assets/images/grid1.jpg">
+                    </template>
+                    <div class="pet-info">
+                        <Button @click="updateBreed(breed)" text="Editar" />
+                    </div>
 
-                    </tr>
-                    <tr class="breed-info" v-for="breed in breeds">
+                    <div class="pet-info">
+                        <Button @click="deleteBreed(breed)" text="Eliminar" />
+                    </div>
+                </n-card>
+            </div>        
+ 
+        </n-spin>
 
-                        <td class="breed-text">{{ breed.name }}</td>
-                        <td class="breed-option">
-                            <n-button @click="updateBreed(breed)" type="warning">
-                                Editar
-                            </n-button>
-                        </td>
-                        <td class="breed-option">
-                            <n-button @click="deleteBreed(breed)" type="error">
-                                Eliminar
-                            </n-button>
-                        </td>
-                    </tr>
+ </n-space>
 
-                </table>
-
-
-                <template #description>
-                    Cargando la raza de tu próximo mejor amigo...
-                </template>
-            </n-spin>
-
-        </n-space>
-
-
-
-
-
-        <Button @click="showModalAdd = true" text="Añadir" />
-
-    </div>
-
-
+   <div class="add-btn">
+    <Button @click="showModalAdd = true" text="Añadir nueva raza" />
+   </div>
+   
+   </div>
+        
 
 
 
@@ -206,6 +193,47 @@ const deleteBreed = async (breed) => {
 </template>
 
 <style scoped>
+.cards-main-cont{
+    .background-color:red;
+    width:70%;
+    margin:0 auto;
+}
+
+.cards-main-cont h1{
+    text-align:center;
+    margin: 50px;
+}
+.cards-cont {
+    display: grid;
+    grid-template-columns: minmax(200px, 1fr) minmax(200px, 1fr) minmax(200px, 1fr);
+    grid-template-rows: auto auto auto;
+}
+.n-card {
+    max-width: 300px;
+}
+
+.pet-info {}
+
+.add-btn{
+   display:flex;
+  
+   width:100%;
+   justify-content:center;
+   padding:20px;
+}
+
+.pet-info-item {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    margin: 5px;
+}
+
+.pet-info-item h3 {
+    margin-right: 5px;
+}
+
 .pets-welcome-cont {
     display: flex;
     flex-direction: row;
